@@ -10,6 +10,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
+    "lint": "eslint ./packages --ext .js,.ts --fix && stylelint \"packages/**/*.less\" --fix",
+    "prepare": "husky install",
+    "release": "sh build/release.sh",
     "build:lib": "yarn && npx gulp -f build/compiler.js --series buildEs buildLib"
   },
   "files": [
