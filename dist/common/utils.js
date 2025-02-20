@@ -9,6 +9,7 @@ export function appendQueryParamsToPath(path, params, override = false) {
     if (!path)
         return '';
     let existingParams = {};
+    path = path.trim();
     const queryIndex = path.indexOf('?');
     if (queryIndex !== -1) {
         // 存在问号, 取问号后面存在的参数放入existingParams对象

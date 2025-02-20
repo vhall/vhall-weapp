@@ -22,8 +22,8 @@ VhallComponent({
     loadUrl() {
       if (this.data.src) {
         const url = appendQueryParamsToPath(this.data.src, {
-          appId: this.data.appId,
-          openId: this.data.openId,
+          mch_app_id: this.data.appId,
+          open_id: this.data.openId,
         });
         this.setData({ url });
       }
