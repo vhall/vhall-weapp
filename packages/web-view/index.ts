@@ -1,4 +1,5 @@
 import { VhallComponent } from '../common/component';
+import { appendQueryParamsToPath } from '../common/utils';
 
 VhallComponent({
   props: {
@@ -6,8 +7,22 @@ VhallComponent({
       type: String,
       value: '',
     },
+    appId: String,
+    openId: String,
+  },
+  data: {
+    url: '',
+  },
+  created() {
+    this.setData({
+      url: this.packUrl(),
+    });
   },
   methods: {
+    packUrl() {
+      // TODO：包装url
+      return appendQueryParamsToPath(this.src, {});
+    },
     onLoad() {
       this.triggerEvent('load');
     },

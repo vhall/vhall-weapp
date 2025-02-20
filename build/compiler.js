@@ -6,6 +6,7 @@ const insert = require('gulp-insert');
 const rename = require('gulp-rename');
 const postcss = require('gulp-postcss');
 const ts = require('gulp-typescript'); //能够通过 tsconfig.json 的配置选项，将ts编译成js
+const terser = require('gulp-terser');
 const util = require('util');
 const merge2 = require('merge2');
 const exec = util.promisify(require('child_process').exec);
@@ -36,15 +37,15 @@ const lessCompiler = (dist) =>
       .pipe(postcss())
       .pipe(
         insert.transform((contents, file) => {
-          if (!file.path.includes('packages' + path.sep + 'common')) {
-            const relativePath = path
-              .relative(
-                path.normalize(`${file.path}${path.sep}..`),
-                baseCssPath
-              )
-              .replace(/\\/g, '/');
-            contents = `@import '${relativePath}';${contents}`;
-          }
+          // if (!file.path.includes('packages' + path.sep + 'common')) {
+          //   const relativePath = path
+          //     .relative(
+          //       path.normalize(`${file.path}${path.sep}..`),
+          //       baseCssPath
+          //     )
+          //     .replace(/\\/g, '/');
+          //   contents = `@import '${relativePath}';${contents}`;
+          // }
           return contents;
         })
       )
@@ -58,7 +59,6 @@ const tsCompiler = (dist, config) =>
       declaration: true,
     });
     const tsResult = tsProject.src().pipe(tsProject());
-
     return merge2(
       tsResult.js
         .pipe(
@@ -66,6 +66,14 @@ const tsCompiler = (dist, config) =>
             return contents;
           })
         )
+        .pipe(
+          terser({
+            toplevel: true,
+            mangle: {
+              properties: false, // 不混淆对象属性名
+            },
+          })
+        ) // 压缩JS代码
         .pipe(gulp.dest(dist)),
       tsResult.dts.pipe(gulp.dest(dist))
     );

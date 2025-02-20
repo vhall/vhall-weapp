@@ -1,6 +1,6 @@
 {
   "name": "@vhall/weapp",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "author": "vhall",
   "license": "MIT",
   "miniprogram": "lib",
@@ -44,6 +44,7 @@
     "gulp-less": "^5.0.0",
     "gulp-postcss": "^9.0.1",
     "gulp-rename": "^2.0.0",
+    "gulp-terser": "^2.1.0",
     "gulp-typescript": "^6.0.0-alpha.1",
     "husky": "^9.1.7",
     "jest": "^27.3.1",
