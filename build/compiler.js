@@ -66,14 +66,14 @@ const tsCompiler = (dist, config) =>
             return contents;
           })
         )
-        .pipe(
-          terser({
-            toplevel: true,
-            mangle: {
-              properties: false, // 不混淆对象属性名
-            },
-          })
-        ) // 压缩JS代码
+        // .pipe(
+        //   terser({
+        //     toplevel: true,
+        //     mangle: {
+        //       properties: false, // 不混淆对象属性名
+        //     },
+        //   })
+        // ) // 压缩JS代码
         .pipe(gulp.dest(dist)),
       tsResult.dts.pipe(gulp.dest(dist))
     );

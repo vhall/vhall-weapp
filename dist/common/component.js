@@ -1,1 +1,46 @@
-import{basic as e}from"../mixins/basic";function s(s){const a={};var o,t,r;o=s,t=a,r={data:"data",props:"properties",watch:"observers",mixins:"behaviors",methods:"methods",beforeCreate:"created",created:"attached",mounted:"ready",destroyed:"detached",classes:"externalClasses"},Object.keys(r).forEach((e=>{o[e]&&(t[r[e]]=o[e])})),a.externalClasses=a.externalClasses||[],a.externalClasses.push("custom-class"),a.behaviors=a.behaviors||[],a.behaviors.push(e);const{relation:i}=s;i&&(a.relations=i.relations,a.behaviors.push(i.mixin)),s.field&&a.behaviors.push("wx://form-field"),a.options={multipleSlots:!0,addGlobalClass:!0},Component(a)}export{s as VhallComponent};
+import { basic } from '../mixins/basic';
+function mapKeys(source, target, map) {
+    Object.keys(map).forEach((key) => {
+        if (source[key]) {
+            target[map[key]] = source[key];
+        }
+    });
+}
+function VhallComponent(VhallOptions) {
+    const options = {};
+    mapKeys(VhallOptions, options, {
+        data: 'data',
+        props: 'properties',
+        watch: 'observers',
+        mixins: 'behaviors',
+        methods: 'methods',
+        beforeCreate: 'created',
+        created: 'attached',
+        mounted: 'ready',
+        destroyed: 'detached',
+        classes: 'externalClasses',
+    });
+    // add default externalClasses
+    options.externalClasses = options.externalClasses || [];
+    options.externalClasses.push('custom-class');
+    // add default behaviors
+    options.behaviors = options.behaviors || [];
+    options.behaviors.push(basic);
+    // add relations
+    const { relation } = VhallOptions;
+    if (relation) {
+        options.relations = relation.relations;
+        options.behaviors.push(relation.mixin);
+    }
+    // map field to form-field behavior
+    if (VhallOptions.field) {
+        options.behaviors.push('wx://form-field');
+    }
+    // add default options
+    options.options = {
+        multipleSlots: true,
+        addGlobalClass: true,
+    };
+    Component(options);
+}
+export { VhallComponent };

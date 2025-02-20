@@ -13,15 +13,20 @@ VhallComponent({
   data: {
     url: '',
   },
-  created() {
-    this.setData({
-      url: this.packUrl(),
-    });
+  watch: {
+    src() {
+      this.loadUrl();
+    },
   },
   methods: {
-    packUrl() {
-      // TODO：包装url
-      return appendQueryParamsToPath(this.src, {});
+    loadUrl() {
+      if (this.data.src) {
+        const url = appendQueryParamsToPath(this.data.src, {
+          appId: this.data.appId,
+          openId: this.data.openId,
+        });
+        this.setData({ url });
+      }
     },
     onLoad() {
       this.triggerEvent('load');

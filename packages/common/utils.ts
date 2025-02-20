@@ -10,6 +10,7 @@ export function appendQueryParamsToPath(
   params: object,
   override: boolean = false
 ): string {
+  if (!path) return '';
   let existingParams = {};
   const queryIndex = path.indexOf('?');
   if (queryIndex !== -1) {
