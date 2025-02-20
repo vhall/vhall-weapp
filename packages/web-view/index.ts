@@ -29,13 +29,13 @@ VhallComponent({
       }
     },
     onLoad() {
-      this.triggerEvent('load');
+      this.triggerEvent('load', { url: this.data.url });
     },
     onError(event) {
-      this.triggerEvent('error', event.detail);
+      this.triggerEvent('error', event);
     },
     onMessage(event) {
-      this.triggerEvent('message', event.detail);
+      this.triggerEvent('message', event);
     },
   },
 });

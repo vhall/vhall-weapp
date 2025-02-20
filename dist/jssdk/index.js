@@ -14,7 +14,6 @@ export function toPay(payConfig) {
         },
         fail(res) {
             // console.log("pay fail");
-            // console.log("pay success");
             if (typeof payConfig.fail === 'function') {
                 payConfig.fail(res);
             }
