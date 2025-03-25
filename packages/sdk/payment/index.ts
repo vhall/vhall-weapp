@@ -13,32 +13,42 @@ interface PayConfig {
 }
 
 export function toPay(payConfig: PayConfig) {
-  const payParam: WechatMiniprogram.RequestPaymentOption = {
-    timeStamp: payConfig.timeStamp,
-    nonceStr: payConfig.nonceStr,
-    signType: payConfig.signType,
-    package: decodeURIComponent(payConfig.package),
-    paySign: decodeURIComponent(payConfig.paySign),
-  };
-  wx.requestPayment({
-    ...payParam,
-    success(res) {
-      // console.log("pay success");
-      if (typeof payConfig.success === 'function') {
-        payConfig.success(res);
-      }
-    },
-    fail(res) {
-      // console.log("pay fail");
-      if (typeof payConfig.fail === 'function') {
-        payConfig.fail(res);
-      }
-    },
-    complete: function (res) {
-      // console.log("pay complete");
-      if (typeof payConfig.complete === 'function') {
-        payConfig.complete(res);
-      }
-    },
-  });
+  if (wx.canIUse('requestPayment')) {
+    const payParam: WechatMiniprogram.RequestPaymentOption = {
+      timeStamp: payConfig.timeStamp,
+      nonceStr: payConfig.nonceStr,
+      signType: payConfig.signType,
+      package: decodeURIComponent(payConfig.package),
+      paySign: decodeURIComponent(payConfig.paySign),
+    };
+    wx.requestPayment({
+      ...payParam,
+      success(res) {
+        // console.log("pay success");
+        if (typeof payConfig.success === 'function') {
+          payConfig.success(res);
+        }
+      },
+      fail(res) {
+        // console.log("pay fail");
+        if (typeof payConfig.fail === 'function') {
+          payConfig.fail(res);
+        }
+      },
+      complete: function (res) {
+        // console.log("pay complete");
+        if (typeof payConfig.complete === 'function') {
+          payConfig.complete(res);
+        }
+      },
+    });
+  } else {
+    wx.showModal({
+      content: '你的微信版本过低，请更新至最新版本。',
+      showCancel: false,
+      success(res) {
+        wx.navigateBack();
+      },
+    });
+  }
 }
