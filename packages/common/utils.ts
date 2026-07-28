@@ -11,8 +11,18 @@ export function appendQueryParamsToPath(
   override: boolean = false
 ): string {
   if (!path) return '';
-  let existingParams = {};
   path = path.trim();
+
+  // 先拆出 hash（# 及之后部分），只对 # 之前的 query 做处理，
+  // 避免把参数拼到 hash 后面（如 mch_app_id / open_id 掉进 fragment 导致 H5 取不到）
+  let hash = '';
+  const hashIndex = path.indexOf('#');
+  if (hashIndex !== -1) {
+    hash = path.slice(hashIndex);
+    path = path.slice(0, hashIndex);
+  }
+
+  let existingParams = {};
   const queryIndex = path.indexOf('?');
   if (queryIndex !== -1) {
     // 存在问号, 取问号后面存在的参数放入existingParams对象
@@ -49,5 +59,6 @@ export function appendQueryParamsToPath(
         : path + '&' + newQueryString;
     }
   }
-  return path;
+  // 重新拼回 hash
+  return path + hash;
 }
